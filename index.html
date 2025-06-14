@@ -3,628 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Wyszukiwania Nicków</title>
+    <title>Wyszukiwarka IP</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .admin-container {
+            font-family: Arial, sans-serif;
             max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         h1 {
             color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-align: center;
         }
-
-        h2 {
-            color: #555;
+        .search-box {
+            display: flex;
             margin-bottom: 20px;
-            font-size: 1.8em;
         }
-
-        .input-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        input[type="text"], input[type="password"], select {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        input[type="text"]:focus, input[type="password"]:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
-            min-width: 120px;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-danger {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-        }
-
-        .btn-success {
-            background: linear-gradient(45deg, #51cf66, #40c462);
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 18px;
-            animation: slideIn 0.5s ease;
-        }
-
-        .result.success {
-            background: linear-gradient(45deg, #d4edda, #c3e6cb);
-            color: #155724;
-            border: 2px solid #c3e6cb;
-        }
-
-        .result.error {
-            background: linear-gradient(45deg, #f8d7da, #f5c6cb);
-            color: #721c24;
-            border: 2px solid #f5c6cb;
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 30px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #f8f9fa;
-        }
-
-        .tab {
+        input[type="text"] {
             flex: 1;
-            padding: 15px;
-            background: #e9ecef;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
-        }
-
-        .tab.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .keys-list {
-            background: rgba(248, 249, 250, 0.9);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .key-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 10px;
-            margin: 5px 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
         }
-
-        .key-item.expired {
-            opacity: 0.6;
-            background: #ffe6e6;
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
         }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        button:hover {
+            background-color: #45a049;
         }
-
-        .hidden {
-            display: none;
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            min-height: 50px;
         }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+        .admin-link {
+            display: block;
+            text-align: right;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
         }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-expired {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-        }
-
-        .form-row .input-group {
-            flex: 1;
+        .admin-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <!-- Ekran autoryzacji -->
-    <div id="authScreen" class="container">
-        <h1>🔐 Autoryzacja</h1>
-        <div class="input-group">
-            <input type="password" id="authCode" placeholder="Wprowadź kod dostępu lub hasło administratora">
+    <div class="container">
+        <h1>Wyszukiwarka IP</h1>
+        <div class="search-box">
+            <input type="text" id="nickname" placeholder="Wpisz nick...">
+            <button onclick="searchIP()">Szukaj</button>
         </div>
-        <button class="btn" onclick="authenticate()">Zaloguj się</button>
-        <div id="authResult"></div>
+        <div id="result">
+            Tutaj pojawi się wynik wyszukiwania...
+        </div>
+        <a href="admin.html" class="admin-link">Panel administratora</a>
     </div>
 
-    <!-- Główny ekran aplikacji -->
-    <div id="mainScreen" class="container hidden">
-        <h1>🔍 System Wyszukiwania Nicków</h1>
-        <div class="input-group">
-            <input type="text" id="nickInput" placeholder="Wprowadź nick do wyszukania">
-        </div>
-        <button class="btn" onclick="searchNick()">Wyszukaj IP</button>
-        <button class="btn btn-danger" onclick="logout()">Wyloguj</button>
-        <div id="searchResult"></div>
-    </div>
-
-    <!-- Panel administracyjny -->
-    <div id="adminScreen" class="container admin-container hidden">
-        <h1>⚙️ Panel Administratora</h1>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('keys')">Zarządzanie Kluczami</button>
-            <button class="tab" onclick="showTab('database')">Baza Danych Nicków</button>
-        </div>
-
-        <!-- Zakładka zarządzania kluczami -->
-        <div id="keysTab" class="tab-content active">
-            <h2>Generowanie Kluczy Dostępu</h2>
-            <div class="form-row">
-                <div class="input-group">
-                    <select id="keyExpiry">
-                        <option value="1">1 godzina</option>
-                        <option value="24">24 godziny</option>
-                        <option value="168">7 dni</option>
-                        <option value="720">30 dni</option>
-                        <option value="8760">1 rok</option>
-                    </select>
-                </div>
-                <button class="btn btn-success" onclick="generateKey()">Wygeneruj Klucz</button>
-            </div>
-            
-            <div id="generatedKey"></div>
-            
-            <h2>Aktywne Klucze</h2>
-            <div id="keysList" class="keys-list">
-                <!-- Lista kluczy będzie tutaj -->
-            </div>
-        </div>
-
-        <!-- Zakładka bazy danych -->
-        <div id="databaseTab" class="tab-content">
-            <h2>Zarządzanie Bazą Danych Nicków</h2>
-            <div class="form-row">
-                <div class="input-group">
-                    <input type="text" id="newNick" placeholder="Nick">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="newIP" placeholder="IP Address">
-                </div>
-                <button class="btn btn-success" onclick="addNickIP()">Dodaj</button>
-            </div>
-            
-            <div id="nickDatabase" class="keys-list">
-                <!-- Lista nicków będzie tutaj -->
-            </div>
-        </div>
-
-        <button class="btn btn-danger" onclick="logout()">Wyloguj</button>
-    </div>
-
-    <script>
-        // Konfiguracja API
-        const API_BASE_URL = '/api.php'; // Zmień na właściwy URL API
-        
-        // Symulacja bazy danych w pamięci (fallback gdy API nie jest dostępne)
-        let database = {
-            nicks: {
-                "player1": "192.168.1.100",
-                "gamer123": "10.0.0.5",
-                "testuser": "172.16.0.1",
-                "admin": "127.0.0.1"
-            },
-            keys: []
-        };
-
-        let useAPI = false; // Flaga do przełączania między API a lokalną bazą
-
-        // Funkcje API
-        async function apiCall(endpoint, method = 'GET', data = null) {
-            try {
-                const options = {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                };
-                
-                if (data) {
-                    options.body = JSON.stringify(data);
-                }
-                
-                const response = await fetch(API_BASE_URL + endpoint, options);
-                return await response.json();
-            } catch (error) {
-                console.error('API Error:', error);
-                // Fallback do lokalnej bazy danych
-                useAPI = false;
-                return { error: 'API not available, using local storage' };
-            }
-        }
-
-        // Stałe konfiguracyjne
-        const ADMIN_PASSWORD = "admin123"; // Stałe hasło administratora
-        const MASTER_AUTH_CODE = "MASTER2025"; // Kod autoryzacji zawsze aktywny
-
-        let currentUser = null;
-        let isAdmin = false;
-
-        // Funkcje autoryzacji
-        async function authenticate() {
-            const code = document.getElementById('authCode').value.trim();
-            const authResult = document.getElementById('authResult');
-            
-            if (!code) {
-                showResult('authResult', 'Wprowadź kod dostępu!', 'error');
-                return;
-            }
-
-            if (useAPI) {
-                // Autoryzacja przez API
-                const result = await apiCall('/auth', 'POST', { code: code });
-                
-                if (result.success) {
-                    currentUser = result.role === 'admin' ? 'admin' : 'user';
-                    isAdmin = result.role === 'admin';
-                    
-                    if (isAdmin) {
-                        showAdminScreen();
-                    } else {
-                        showMainScreen();
-                    }
-                } else {
-                    showResult('authResult', result.error || 'Nieprawidłowy kod dostępu!', 'error');
-                }
-            } else {
-                // Lokalna autoryzacja (fallback)
-                authenticateLocal(code);
-            }
-        }
-
-        function authenticateLocal(code) {
-            // Sprawdzenie hasła administratora
-            if (code === ADMIN_PASSWORD) {
-                currentUser = 'admin';
-                isAdmin = true;
-                showAdminScreen();
-                return;
-            }
-
-            // Sprawdzenie kodu master
-            if (code === MASTER_AUTH_CODE) {
-                currentUser = 'user';
-                isAdmin = false;
-                showMainScreen();
-                return;
-            }
-
-            // Sprawdzenie wygenerowanych kluczy
-            const key = database.keys.find(k => k.code === code);
-            if (key) {
-                if (isKeyExpired(key)) {
-                    showResult('authResult', 'Kod dostępu wygasł!', 'error');
-                    return;
-                }
-                currentUser = 'user';
-                isAdmin = false;
-                showMainScreen();
-                return;
-            }
-
-            showResult('authResult', 'Nieprawidłowy kod dostępu!', 'error');
-        }
-
-        // Funkcje zarządzania ekranami
-        function showMainScreen() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('adminScreen').classList.add('hidden');
-            document.getElementById('mainScreen').classList.remove('hidden');
-            document.getElementById('authCode').value = '';
-        }
-
-        function showAdminScreen() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('adminScreen').classList.remove('hidden');
-            document.getElementById('authCode').value = '';
-            refreshKeysList();
-            refreshNickDatabase();
-        }
-
-        function showAuthScreen() {
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('adminScreen').classList.add('hidden');
-            document.getElementById('authScreen').classList.remove('hidden');
-            currentUser = null;
-            isAdmin = false;
-        }
-
-        function logout() {
-            showAuthScreen();
-        }
-
-        // Funkcje wyszukiwania
-        function searchNick() {
-            const nick = document.getElementById('nickInput').value.trim();
-            
-            if (!nick) {
-                showResult('searchResult', 'Wprowadź nick!', 'error');
-                return;
-            }
-
-            const ip = database.nicks[nick];
-            if (ip) {
-                showResult('searchResult', `IP dla nicku "${nick}": ${ip}`, 'success');
-            } else {
-                showResult('searchResult', `Nick "${nick}" nie został znaleziony w bazie danych.`, 'error');
-            }
-            
-            document.getElementById('nickInput').value = '';
-        }
-
-        // Funkcje generowania kluczy
-        function generateKey() {
-            const expiry = parseInt(document.getElementById('keyExpiry').value);
-            const code = generateRandomCode();
-            const expiryDate = new Date(Date.now() + expiry * 60 * 60 * 1000);
-            
-            const key = {
-                code: code,
-                createdAt: new Date(),
-                expiresAt: expiryDate,
-                used: false
-            };
-            
-            database.keys.push(key);
-            
-            showResult('generatedKey', `Wygenerowany klucz: <strong>${code}</strong><br>Wygasa: ${expiryDate.toLocaleString('pl-PL')}`, 'success');
-            refreshKeysList();
-        }
-
-        function generateRandomCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            return Array.from({length: 8}, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-        }
-
-        function isKeyExpired(key) {
-            return new Date() > new Date(key.expiresAt);
-        }
-
-        function deleteKey(code) {
-            database.keys = database.keys.filter(k => k.code !== code);
-            refreshKeysList();
-        }
-
-        // Funkcje zarządzania bazą danych nicków
-        function addNickIP() {
-            const nick = document.getElementById('newNick').value.trim();
-            const ip = document.getElementById('newIP').value.trim();
-            
-            if (!nick || !ip) {
-                alert('Wypełnij wszystkie pola!');
-                return;
-            }
-            
-            if (!isValidIP(ip)) {
-                alert('Nieprawidłowy format IP!');
-                return;
-            }
-            
-            database.nicks[nick] = ip;
-            document.getElementById('newNick').value = '';
-            document.getElementById('newIP').value = '';
-            refreshNickDatabase();
-        }
-
-        function deleteNick(nick) {
-            delete database.nicks[nick];
-            refreshNickDatabase();
-        }
-
-        function isValidIP(ip) {
-            const regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-            if (!regex.test(ip)) return false;
-            return ip.split('.').every(octet => parseInt(octet) >= 0 && parseInt(octet) <= 255);
-        }
-
-        // Funkcje odświeżania interfejsu
-        function refreshKeysList() {
-            const keysList = document.getElementById('keysList');
-            
-            if (database.keys.length === 0) {
-                keysList.innerHTML = '<p style="text-align: center; color: #666;">Brak wygenerowanych kluczy</p>';
-                return;
-            }
-            
-            keysList.innerHTML = database.keys.map(key => {
-                const expired = isKeyExpired(key);
-                const statusClass = expired ? 'status-expired' : 'status-active';
-                const statusText = expired ? 'Wygasł' : 'Aktywny';
-                const itemClass = expired ? 'key-item expired' : 'key-item';
-                
-                return `
-                    <div class="${itemClass}">
-                        <div>
-                            <strong>${key.code}</strong><br>
-                            <small>Utworzony: ${new Date(key.createdAt).toLocaleString('pl-PL')}</small><br>
-                            <small>Wygasa: ${new Date(key.expiresAt).toLocaleString('pl-PL')}</small>
-                        </div>
-                        <div>
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                            <button class="btn btn-danger" onclick="deleteKey('${key.code}')" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">Usuń</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function refreshNickDatabase() {
-            const nickDatabase = document.getElementById('nickDatabase');
-            const entries = Object.entries(database.nicks);
-            
-            if (entries.length === 0) {
-                nickDatabase.innerHTML = '<p style="text-align: center; color: #666;">Baza danych jest pusta</p>';
-                return;
-            }
-            
-            nickDatabase.innerHTML = entries.map(([nick, ip]) => `
-                <div class="key-item">
-                    <div>
-                        <strong>${nick}</strong> → <code>${ip}</code>
-                    </div>
-                    <button class="btn btn-danger" onclick="deleteNick('${nick}')" style="padding: 5px 10px; font-size: 12px;">Usuń</button>
-                </div>
-            `).join('');
-        }
-
-        // Funkcje pomocnicze
-        function showResult(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            element.innerHTML = `<div class="result ${type}">${message}</div>`;
-            setTimeout(() => {
-                element.innerHTML = '';
-            }, 5000);
-        }
-
-        function showTab(tabName) {
-            // Ukryj wszystkie zakładki
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Pokaż wybraną zakładkę
-            document.getElementById(tabName + 'Tab').classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Obsługa klawisza Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (!document.getElementById('authScreen').classList.contains('hidden')) {
-                    authenticate();
-                } else if (!document.getElementById('mainScreen').classList.contains('hidden')) {
-                    searchNick();
-                }
-            }
-        });
-
-        // Inicjalizacja
-        window.onload = function() {
-            // Automatyczne wygenerowanie przykładowych kluczy dla testowania
-            if (database.keys.length === 0) {
-                // Klucz aktywny na 24 godziny
-                database.keys.push({
-                    code: 'TEST2025',
-                    createdAt: new Date(),
-                    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    used: false
-                });
-                
-                // Klucz wygasły (dla demonstracji)
-                database.keys.push({
-                    code: 'EXPIRED1',
-                    createdAt: new Date(Date.now() - 48 * 60 * 60 * 1000),
-                    expiresAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-                    used: false
-                });
-            }
-        };
-    </script>
+    <script src="scripts/main.js"></script>
 </body>
 </html>
