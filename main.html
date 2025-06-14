@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyszukiwarka Nicków</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Wyszukiwarka Nicków</h1>
+            <nav>
+                <a href="#" id="adminLink">Panel Admina</a>
+                <a href="#" id="logoutLink">Wyloguj</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="search-container">
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="nickname">Wpisz nick:</label>
+                        <input type="text" id="nickname" required>
+                    </div>
+                    <button type="submit">Szukaj</button>
+                </form>
+                
+                <div id="result" class="result"></div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
