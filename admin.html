@@ -4,154 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administratora</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        h2 {
-            color: #444;
-            margin-top: 0;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"], input[type="password"], select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #generatedKey {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            word-break: break-all;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #666;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Panel Administratora</h1>
+        <header>
+            <h1>Panel Administratora</h1>
+            <nav>
+                <a href="main.html">Powrót</a>
+                <a href="#" id="logoutLink">Wyloguj</a>
+            </nav>
+        </header>
         
-        <div class="section">
-            <h2>Generator kluczy dostępu</h2>
-            <div class="form-group">
-                <label for="validity">Czas ważności:</label>
-                <select id="validity">
-                    <option value="1">1 godzina</option>
-                    <option value="24" selected>1 dzień</option>
-                    <option value="168">1 tydzień</option>
-                    <option value="720">1 miesiąc (30 dni)</option>
-                    <option value="8760">1 rok (365 dni)</option>
-                </select>
+        <main>
+            <div class="admin-section">
+                <h2>Generator Kluczy</h2>
+                <form id="keyGeneratorForm">
+                    <div class="form-group">
+                        <label for="keyDuration">Czas ważności (w godzinach):</label>
+                        <input type="number" id="keyDuration" min="1" value="24" required>
+                    </div>
+                    <button type="submit">Wygeneruj Klucz</button>
+                </form>
+                
+                <div id="generatedKey" class="generated-key"></div>
+                <button id="copyKeyBtn" style="display: none;">Kopiuj klucz</button>
+                <div id="jsonCodeContainer" style="display: none;">
+                    <h3>Kod JSON do wklejenia:</h3>
+                    <textarea id="jsonCode" rows="5" readonly></textarea>
+                    <button id="copyJsonBtn">Kopiuj JSON</button>
+                </div>
             </div>
-            <button onclick="generateKey()">Wygeneruj klucz</button>
-            <div id="generatedKey"></div>
-        </div>
-        
-        <div class="section">
-            <h2>Aktywne klucze</h2>
-            <table id="activeKeys">
-                <thead>
-                    <tr>
-                        <th>Klucz</th>
-                        <th>Wygasa</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        
-        <div class="section">
-            <h2>Dodaj nowy nick i IP</h2>
-            <div class="form-group">
-                <label for="newNick">Nick:</label>
-                <input type="text" id="newNick" placeholder="Wpisz nick...">
+            
+            <div class="admin-section">
+                <h2>Aktywne Klucze</h2>
+                <table id="activeKeysTable">
+                    <thead>
+                        <tr>
+                            <th>Klucz</th>
+                            <th>Wygasa</th>
+                            <th>Pozostały czas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activeKeysList">
+                        <!-- Tu będą dodawane klucze dynamicznie -->
+                    </tbody>
+                </table>
             </div>
-            <div class="form-group">
-                <label for="newIP">IP:</label>
-                <input type="text" id="newIP" placeholder="Wpisz IP...">
+            
+            <div class="admin-section">
+                <h2>Dodaj nowy nick do bazy</h2>
+                <form id="addNickForm">
+                    <div class="form-group">
+                        <label for="newNick">Nick:</label>
+                        <input type="text" id="newNick" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newIp">IP:</label>
+                        <input type="text" id="newIp" required>
+                    </div>
+                    <button type="submit">Dodaj do bazy</button>
+                </form>
+                <div id="addNickMessage" class="message"></div>
             </div>
-            <button onclick="addNickIP()">Dodaj</button>
-        </div>
-        
-        <div class="section">
-            <h2>Dostęp administratora</h2>
-            <div class="form-group">
-                <label for="adminPassword">Hasło administratora:</label>
-                <input type="password" id="adminPassword" placeholder="Wpisz hasło...">
-            </div>
-            <button onclick="changeAdminPassword()">Zmień hasło</button>
-        </div>
-        
-        <a href="index.html" class="back-link">Powrót do strony głównej</a>
+        </main>
     </div>
-
-    <script src="scripts/admin.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
